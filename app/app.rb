@@ -21,16 +21,33 @@ class App < Sinatra::Base
     end
   end
 
+  # トップページ
   get '/' do
+    @message = flash[:message]
     erb :index
   end
 
+  # OAuth認証
   get '/oauth' do
     twitter = Twitter.new
-    request_token = twitter.request_token(base_url)
+    request_token = twitter.request_token("#{base_url}/oauthed")
     session[:request_token] = request_token.token
     session[:request_token_secret] = request_token.secret
     redirect request_token.authorize_url
+  end
+
+  # OAuth認証完了
+  get '/oauthed' do
+    if params[:oauth_token] && verifier = params[:oauth_verifier]
+      twitter = Twitter.new
+      req_token = session[:request_token] || ''
+      req_secret = session[:request_token_secret] || ''
+      twitter.set_access_token(req_token , req_secret , verifier)
+      flash[:message] = 'Twitter連携を設定しました'
+    else
+      flash['message'] = 'Twitterの認証連携に失敗しました'
+    end
+    redirect '/'
   end
 
 end

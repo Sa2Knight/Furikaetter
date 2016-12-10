@@ -36,15 +36,14 @@ class Twitter
     return request_token
   end
 
-  # get_access_token - Twitter連携用のアクセストークンを取得する
+  # set_access_token - Twitter連携用のアクセストークンを保存
   #--------------------------------------------------------------------
-  def get_access_token(req_token , req_secret , verifier)
+  def set_access_token(req_token , req_secret , verifier)
     token = @twitter.authorize(req_token , req_secret , :oauth_verifier => verifier)
-    Util.write_secret(@username , {
-      :token => token.token ,
-      :secret => token.secret ,
-      :username => @twitter.info['screen_name'] ,
-      :icon => @twitter.info['profile_image_url']
+    Util.set_user_info(token.token , {
+      :secret => token.secret,
+      :username => @twitter.info['screen_name'],
+      :icon => @twitter.info['profile_image_url'],
     })
   end
 
