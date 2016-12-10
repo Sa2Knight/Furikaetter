@@ -59,4 +59,11 @@ class Twitter
     @authed and return @twitter.info['profile_image_url']
   end
 
+  # tweets - ユーザのツイート一覧を取得
+  #--------------------------------------------------------------------
+  def tweets
+    tweets = @twitter.user_timeline(:trim_user => true , :count => 200)
+    tweets.map {|t| t['text']}
+  end
+
 end
