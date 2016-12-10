@@ -59,12 +59,6 @@ class Twitter
     @authed and return @twitter.info['profile_image_url']
   end
 
-  # rate_limit_status
-  #--------------------------------------------------------------------
-  def rate_limit_status
-    @twitter.rate_limit_status
-  end
-
   # tweets200 - ユーザのツイート一覧を直近200件取得
   #--------------------------------------------------------------------
   def tweets200(page = 0)
@@ -82,15 +76,26 @@ class Twitter
   # tweets3600 - ユーザのツイート一覧を直近3600件取得
   #--------------------------------------------------------------------
   def tweets3600
-    tweets = []
+    @tweets = []
     page = 0
-    while tweets.length < 3600
+    while @tweets.length < 3600
         tweets_result = self.tweets200(page)
         tweets_result.empty? and break
-        tweets.concat tweets_result
+        @tweets.concat tweets_result
         page += 1
     end
-    return tweets
+    return @tweets
+  end
+
+  # analysis - ツイート内容から、リプライ先、URL、ハッシュタグを抜き出す
+  #----------------------------------------------------------------------
+  def analysis(index)
+    tweet = @tweets[index]
+    tweet_info = Hash.new
+    tweet_info[:reply_to] = tweet.scan(/@\w+/).flatten
+    tweet_info[:attachment_url] = tweet.scan(%r|(https?://[\w/:%#\$&\?\(\)~\.=\+\-]+)|).flatten
+    tweet_info[:hash_tag] = tweet.scan(%r|\s?(#[^ 　]+)\s?|).flatten
+    return tweet_info
   end
 
 end
