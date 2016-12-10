@@ -59,11 +59,38 @@ class Twitter
     @authed and return @twitter.info['profile_image_url']
   end
 
-  # tweets - ユーザのツイート一覧を取得
+  # rate_limit_status
   #--------------------------------------------------------------------
-  def tweets
-    tweets = @twitter.user_timeline(:trim_user => true , :count => 200)
-    tweets.map {|t| t['text']}
+  def rate_limit_status
+    @twitter.rate_limit_status
+  end
+
+  # tweets200 - ユーザのツイート一覧を直近200件取得
+  #--------------------------------------------------------------------
+  def tweets200(page = 0)
+    opt = {:trim_user => true , :count => 200 , :page => page}
+    tweets = []
+    begin
+      tweets = @twitter.user_timeline(opt)
+    rescue => err
+      sleep 3
+      retry
+    end
+    return tweets.map {|t| t['text']}
+  end
+
+  # tweets3600 - ユーザのツイート一覧を直近3600件取得
+  #--------------------------------------------------------------------
+  def tweets3600
+    tweets = []
+    page = 0
+    while tweets.length < 3600
+        tweets_result = self.tweets200(page)
+        tweets_result.empty? and break
+        tweets.concat tweets_result
+        page += 1
+    end
+    return tweets
   end
 
 end
