@@ -24,6 +24,7 @@ build/
 logs/*.log
 shared/tmp/unicorn.pid
 shared/tmp/unicorn.sock
+secret.yml
 
 ## Documentation cache and generated files:
 /.yardoc/
