@@ -8,7 +8,7 @@ class Util
     YAML.load_file(SECRET)
   end
 
-  def self.read_twitter_aouth_key
+  def self.read_twitter_oauth_key
     Util.read_secret['twitter_api']
   end
 

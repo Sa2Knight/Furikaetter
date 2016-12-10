@@ -4,24 +4,29 @@ class Twitter
   # initialize - usernameでインスタンスを生成する
   #---------------------------------------------------------------------
   def initialize(username = nil)
+
+    # APIのアクセスキーを取得
+    twitter_api = Util.read_twitter_oauth_key
     key = twitter_api['key']
     secret = twitter_api['secret']
     a_token = nil
     a_secret = nil
-
+    # ユーザの指定がある場合OAuthキーを取得
     if username
       if @access_token = Util.read_secret(@username)
         a_token = @access_token[:token] || nil
         a_secret = @access_token[:secret] || nil
       end
-      @twitter = TwitterOAuth::Client.new(
+    end
+
+    # TwitterAPIの利用開始
+    @twitter = TwitterOAuth::Client.new(
         :consumer_key => key,
         :consumer_secret => secret,
         :token => a_token,
         :secret => a_secret
-      )
-      @authed = @twitter && @twitter.info['screen_name'] ? true : false
-    end
+    )
+    @authed = @twitter && @twitter.info['screen_name'] ? true : false
   end
 
   # request_token - Twitter認証用のURLを生成する

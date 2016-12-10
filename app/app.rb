@@ -1,6 +1,7 @@
 require 'sinatra/base'
 require 'rack/flash'
 require_relative 'util'
+require_relative 'twitter'
 
 class App < Sinatra::Base
 
@@ -22,6 +23,14 @@ class App < Sinatra::Base
 
   get '/' do
     erb :index
+  end
+
+  get '/oauth' do
+    twitter = Twitter.new
+    request_token = twitter.request_token(base_url)
+    session[:request_token] = request_token.token
+    session[:request_token_secret] = request_token.secret
+    redirect request_token.authorize_url
   end
 
 end
