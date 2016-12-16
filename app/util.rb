@@ -3,6 +3,7 @@ require 'yaml'
 class Util
 
   SECRET = 'secret.yml'
+  TWEETS = 'tweets'
 
   def self.read_secret
     YAML.load_file(SECRET)
@@ -10,6 +11,10 @@ class Util
 
   def self.read_twitter_oauth_key
     Util.read_secret['twitter_api']
+  end
+
+  def self.save_tweets(user , tweets)
+    open("#{TWEETS}/#{user}" , "w"){|f| f.write(tweets)}
   end
 
   def self.set_user_info(key , params)

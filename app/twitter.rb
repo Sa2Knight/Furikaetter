@@ -45,6 +45,7 @@ class Twitter
       :username => @twitter.info['screen_name'],
       :icon => @twitter.info['profile_image_url'],
     })
+    @authed = true
   end
 
   # username - ユーザ名を取得する

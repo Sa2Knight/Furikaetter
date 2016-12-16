@@ -43,7 +43,7 @@ class App < Sinatra::Base
       req_token = session[:request_token] || ''
       req_secret = session[:request_token_secret] || ''
       twitter.set_access_token(req_token , req_secret , verifier)
-      flash[:message] = 'Twitter連携を設定しました'
+      Util.save_tweets(twitter.username , twitter.tweets3600)
     else
       flash['message'] = 'Twitterの認証連携に失敗しました'
     end
