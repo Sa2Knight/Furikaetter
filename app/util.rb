@@ -14,7 +14,11 @@ class Util
   end
 
   def self.save_tweets(user , tweets)
-    open("#{TWEETS}/#{user}" , "w"){|f| f.write(tweets)}
+    open("#{TWEETS}/#{user}" , "w"){|f| f.write(YAML.dump(tweets))}
+  end
+
+  def self.load_tweets(user)
+    YAML.load_file("#{TWEETS}/user")
   end
 
   def self.set_user_info(key , params)
