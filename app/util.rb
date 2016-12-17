@@ -18,7 +18,8 @@ class Util
   end
 
   def self.load_tweets(user)
-    YAML.load_file("#{TWEETS}/user")
+    path = "#{TWEETS}/#{user}"
+    File.exists?(path) and YAML.load_file(path)
   end
 
   def self.set_user_info(key , params)

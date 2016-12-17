@@ -2,6 +2,7 @@ require 'sinatra/base'
 require 'rack/flash'
 require_relative 'util'
 require_relative 'twitter'
+require_relative 'tweet'
 
 class App < Sinatra::Base
 
@@ -27,6 +28,12 @@ class App < Sinatra::Base
     erb :index
   end
 
+  # ツイート集計ページ
+  get '/furikaeri' do
+    @tweets = Tweet.new(session[:user]).tweets
+    erb :furikaeri
+  end
+
   # OAuth認証
   get '/oauth' do
     twitter = Twitter.new
@@ -43,11 +50,16 @@ class App < Sinatra::Base
       req_token = session[:request_token] || ''
       req_secret = session[:request_token_secret] || ''
       twitter.set_access_token(req_token , req_secret , verifier)
-      Util.save_tweets(twitter.username , twitter.tweets3600)
+      unless tweets = Util.load_tweets(twitter.username)
+        tweets = twitter.tweets3600
+        Util.save_tweets(twitter.username , tweets)
+      end
+      session[:user] = twitter.username
+      redirect '/furikaeri'
     else
       flash['message'] = 'Twitterの認証連携に失敗しました'
+      redirect '/'
     end
-    redirect '/'
   end
 
 end
