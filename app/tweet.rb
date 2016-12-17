@@ -19,7 +19,7 @@ class Tweet
     tweet_info = Hash.new
     tweet_info[:reply_to] = tweet.scan(/@\w+/).flatten
     tweet_info[:attachment_url] = tweet.scan(%r|(https?://[\w/:%#\$&\?\(\)~\.=\+\-]+)|).flatten
-    tweet_info[:hash_tag] = tweet.scan(%r|\s?(#[^ 　]+)\s?|).flatten
+    tweet_info[:hash_tag] = tweet.scan(%r|\s?(#[^\s　]+)\s?|).flatten
     return tweet_info
   end
 
