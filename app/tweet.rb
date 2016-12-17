@@ -25,13 +25,28 @@ class Tweet
 
   # リプライ数を集計
   def replays
-    users = Hash.new(0)
+    self.aggregate(:reply_to)
+  end
+
+  # ハッシュタグ数を集計
+  def hash_tags
+    self.aggregate(:hash_tag)
+  end
+
+  # URLを集計
+  def attachment_urls
+    self.aggregate(:attachment_url)
+  end
+
+  # 指定したキーを集計
+  def aggregate(key)
+    counts = Hash.new(0)
     @tweets.each do |t|
-      t[:reply_to].each do |u|
-        users[u] += 1
+      t[key].each do |p|
+        counts[p] += 1
       end
     end
-    users.sort_by {|k,v| !v }
+    counts.sort_by {|k,v| v}.reverse
   end
 
 end
