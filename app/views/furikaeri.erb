@@ -1,7 +1,9 @@
 <table border="1">
-  <% @tweets.each do |t| %>
+  <% @replays.each_with_index do |u , idx| %>
   <tr>
-    <td><%= t[:origin] %></td>
+    <td><%= idx + 1 %></td>
+    <td><%= u[0] %></td>
+    <td><%= u[1] %></td>
   </tr>
   <% end %>
 </table>

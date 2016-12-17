@@ -22,6 +22,10 @@ class App < Sinatra::Base
     end
   end
 
+  before do
+    session[:user] = 'Sa2Knight' #debug
+  end
+
   # トップページ
   get '/' do
     @message = flash[:message]
@@ -30,7 +34,7 @@ class App < Sinatra::Base
 
   # ツイート集計ページ
   get '/furikaeri' do
-    @tweets = Tweet.new(session[:user]).tweets
+    @replays = Tweet.new(session[:user]).replays
     erb :furikaeri
   end
 

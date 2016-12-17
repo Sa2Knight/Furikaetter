@@ -25,7 +25,13 @@ class Tweet
 
   # リプライ数を集計
   def replays
-
+    users = Hash.new(0)
+    @tweets.each do |t|
+      t[:reply_to].each do |u|
+        users[u] += 1
+      end
+    end
+    users.sort_by {|k,v| !v }
   end
 
 end
