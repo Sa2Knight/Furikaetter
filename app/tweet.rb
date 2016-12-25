@@ -9,7 +9,7 @@ class Tweet
     @tweets = []
     origin_tweets.each do |origin|
       tweet = get_info(origin[:text])
-      tweet[:origin] = origin
+      tweet.merge!(origin)
       @tweets.push tweet
     end
   end
