@@ -34,7 +34,7 @@ class App < Sinatra::Base
 
   # ツイート集計ページ
   get '/furikaeri' do
-    @replays = Tweet.new(session[:user]).hash_tags
+    @data = Util.to_json(Tweet.new(session[:user]).aggregate(:datetime , :cwday))
     erb :furikaeri
   end
 

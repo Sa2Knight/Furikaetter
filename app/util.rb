@@ -1,5 +1,6 @@
 require 'date'
 require 'yaml'
+require 'json'
 
 class Util
 
@@ -34,6 +35,7 @@ class Util
 
   def self.to_datetime(str)
     format = "%a %b %d %H:%M:%S %z %Y"
+    cw = %w(月曜 火曜 水曜 木曜 金曜 土曜 日曜)
     datetime = DateTime.strptime(str, format)
     return {
       year: datetime.year,
@@ -41,8 +43,12 @@ class Util
       day: datetime.day,
       hour: datetime.hour,
       min: datetime.min,
-      cwday: datetime.cwday,
+      cwday: cw[datetime.cwday - 1],
     }
+  end
+
+  def self.to_json(object)
+    JSON.generate(object)
   end
 
 end
