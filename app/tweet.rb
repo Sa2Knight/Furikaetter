@@ -38,6 +38,21 @@ class Tweet
     self.aggregate(:attachment_url)
   end
 
+  # 曜日ごとの集計
+  def cwdays
+    self.aggregate(:datetime , :cwday)
+  end
+
+  # リプライを含むツイート数
+  def replay_count
+    self.count_of(:reply_to)
+  end
+
+  # ハッシュタグを含むツイート数
+  def hash_tags_count
+    self.count_of(:hash_tag)
+  end
+
   # 指定したキーを集計
   def aggregate(key , deep_key = nil)
     counts = Hash.new(0)
@@ -53,6 +68,11 @@ class Tweet
       end
     end
     counts.sort_by {|k,v| v}.reverse
+  end
+
+  # 指定したキーを持つツイート数を取得
+  def count_of(key)
+    @tweets.count {|t| t[key].size > 0}
   end
 
 end
