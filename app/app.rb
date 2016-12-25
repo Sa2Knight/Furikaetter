@@ -23,7 +23,7 @@ class App < Sinatra::Base
   end
 
   before do
-    #session[:user] = 'Sa2Knight' #debug
+    session[:user] = 'Sa2Knight' #debug
   end
 
   # トップページ

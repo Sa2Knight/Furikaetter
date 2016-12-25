@@ -39,11 +39,17 @@ class Tweet
   end
 
   # 指定したキーを集計
-  def aggregate(key)
+  def aggregate(key , deep_key = nil)
     counts = Hash.new(0)
     @tweets.each do |t|
-      t[key].each do |p|
-        counts[p] += 1
+      target = t[key]
+      deep_key.nil? or target = target[deep_key]
+      if target.class == Array
+        target.each do |p|
+          counts[p] += 1
+        end
+      else
+        counts[target] += 1
       end
     end
     counts.sort_by {|k,v| v}.reverse
