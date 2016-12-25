@@ -34,7 +34,7 @@ class App < Sinatra::Base
 
   # ツイート集計ページ
   get '/furikaeri' do
-    @data = Util.to_json(Tweet.new(session[:user]).aggregate(:datetime , :cwday))
+    @data = Util.to_json(Tweet.new(session[:user]).aggregate(:reply_to , {:others => true}))
     erb :furikaeri
   end
 

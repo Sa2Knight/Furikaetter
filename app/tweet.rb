@@ -23,42 +23,12 @@ class Tweet
     return tweet_info
   end
 
-  # リプライ数を集計
-  def replays
-    self.aggregate(:reply_to)
-  end
-
-  # ハッシュタグ数を集計
-  def hash_tags
-    self.aggregate(:hash_tag)
-  end
-
-  # URLを集計
-  def attachment_urls
-    self.aggregate(:attachment_url)
-  end
-
-  # 曜日ごとの集計
-  def cwdays
-    self.aggregate(:datetime , :cwday)
-  end
-
-  # リプライを含むツイート数
-  def replay_count
-    self.count_of(:reply_to)
-  end
-
-  # ハッシュタグを含むツイート数
-  def hash_tags_count
-    self.count_of(:hash_tag)
-  end
-
   # 指定したキーを集計
-  def aggregate(key , deep_key = nil)
+  def aggregate(key , opt = {})
     counts = Hash.new(0)
     @tweets.each do |t|
       target = t[key]
-      deep_key.nil? or target = target[deep_key]
+      opt[:deep_key] and target = target[opt[:deep_key]]
       if target.class == Array
         target.each do |p|
           counts[p] += 1
@@ -67,7 +37,13 @@ class Tweet
         counts[target] += 1
       end
     end
-    counts.sort_by {|k,v| v}.reverse
+    counts = counts.sort_by {|k,v| v}.reverse
+    if opt[:others] && counts.size > 9
+      others = counts[9..-1].inject(0) {|sum , c| sum + c[1]}
+      counts[9] = ['その他' , others]
+      counts = counts[0..9]
+    end
+    return counts
   end
 
   # 指定したキーを持つツイート数を取得
