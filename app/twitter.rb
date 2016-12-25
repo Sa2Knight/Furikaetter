@@ -90,7 +90,7 @@ class Twitter
         @tweets.concat tweets_result
         page += 1
     end
-    return @tweets
+    return @tweets.uniq
   end
 
   # analysis - ツイート内容から、リプライ先、URL、ハッシュタグを抜き出す
