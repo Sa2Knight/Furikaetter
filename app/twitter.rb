@@ -64,14 +64,19 @@ class Twitter
   #--------------------------------------------------------------------
   def tweets200(page = 0)
     opt = {:trim_user => true , :count => 200 , :page => page}
-    tweets = []
+    origin_tweets = []
     begin
-      tweets = @twitter.user_timeline(opt)
+      origin_tweets = @twitter.user_timeline(opt)
     rescue => err
       sleep 3
       retry
     end
-    return tweets.map {|t| t['text']}
+    tweets = []
+    origin_tweets.each do |t|
+      tweets.push ({:datetime => Util.to_datetime(t['created_at']), :text => t['text']})
+    end
+    p tweets
+    tweets
   end
 
   # tweets3600 - ユーザのツイート一覧を直近3600件取得

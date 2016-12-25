@@ -8,7 +8,7 @@ class Tweet
     origin_tweets = Util.load_tweets(user)
     @tweets = []
     origin_tweets.each do |origin|
-      tweet = get_info(origin)
+      tweet = get_info(origin[:text])
       tweet[:origin] = origin
       @tweets.push tweet
     end

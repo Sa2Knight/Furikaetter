@@ -1,3 +1,4 @@
+require 'date'
 require 'yaml'
 
 class Util
@@ -29,6 +30,19 @@ class Util
     if secret['twitter_api'] && secret[key]
       open(SECRET , "w"){|f| f.write(YAML.dump(secret))}
     end
+  end
+
+  def self.to_datetime(str)
+    format = "%a %b %d %H:%M:%S %z %Y"
+    datetime = DateTime.strptime(str, format)
+    return {
+      year: datetime.year,
+      month: datetime.mon,
+      day: datetime.day,
+      hour: datetime.hour,
+      min: datetime.min,
+      cwday: datetime.cwday,
+    }
   end
 
 end

@@ -23,7 +23,7 @@ class App < Sinatra::Base
   end
 
   before do
-    session[:user] = 'Sa2Knight' #debug
+    #session[:user] = 'Sa2Knight' #debug
   end
 
   # トップページ
@@ -34,7 +34,7 @@ class App < Sinatra::Base
 
   # ツイート集計ページ
   get '/furikaeri' do
-    @replays = Tweet.new(session[:user]).replays
+    @replays = Tweet.new(session[:user]).hash_tags
     erb :furikaeri
   end
 
