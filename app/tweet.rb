@@ -5,12 +5,15 @@ class Tweet
 
   # ユーザ名を指定してインスタンス生成
   def initialize(user)
-    origin_tweets = Util.load_tweets(user)
-    @tweets = []
-    origin_tweets.each do |origin|
-      tweet = get_info(origin[:text])
-      tweet.merge!(origin)
-      @tweets.push tweet
+    if origin_tweets = Util.load_tweets(user)
+      @tweets = []
+      origin_tweets.each do |origin|
+        tweet = get_info(origin[:text])
+        tweet.merge!(origin)
+        @tweets.push tweet
+      end
+    else
+      @tweets = nil
     end
   end
 

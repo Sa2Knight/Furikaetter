@@ -23,7 +23,7 @@ class App < Sinatra::Base
   end
 
   before do
-    session[:user] = 'Sa2Knight' #debug
+    #session[:user] = 'Sa2Knight' #debug
   end
 
   # トップページ
@@ -33,8 +33,10 @@ class App < Sinatra::Base
   end
 
   # ツイート集計ページ
-  get '/furikaeri' do
-    @data = Util.to_json(Tweet.new(session[:user]).aggregate(:reply_to , {:others => true}))
+  get '/furikaeri/:user' do
+    tweet = Tweet.new(params[:user])
+    tweet.tweets or redirect '/'
+    @data = Util.to_json(tweet.aggregate(:hash_tag , {:others => true}))
     erb :furikaeri
   end
 
@@ -54,12 +56,13 @@ class App < Sinatra::Base
       req_token = session[:request_token] || ''
       req_secret = session[:request_token_secret] || ''
       twitter.set_access_token(req_token , req_secret , verifier)
-      unless tweets = Util.load_tweets(twitter.username)
+      usertoken = twitter.usertoken
+      unless tweets = Util.load_tweets(usertoken)
         tweets = twitter.tweets3600
-        Util.save_tweets(twitter.username , tweets)
+        Util.save_tweets(usertoken , tweets)
       end
-      session[:user] = twitter.username
-      redirect '/furikaeri'
+      session[:user] = usertoken
+      redirect "/furikaeri/#{usertoken}"
     else
       flash['message'] = 'Twitterの認証連携に失敗しました'
       redirect '/'
