@@ -33,6 +33,10 @@ class Util
     end
   end
 
+  def self.get_user_info(key)
+    Util.read_secret[key]
+  end
+
   def self.to_datetime(str)
     format = "%a %b %d %H:%M:%S %z %Y"
     cw = %w(月曜 火曜 水曜 木曜 金曜 土曜 日曜)

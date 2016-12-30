@@ -1,5 +1,6 @@
 $(function() {
-  var createPieChart = function(targetSelecter , data) {
+  var createPieChart = function(targetSelecter , source) {
+    var data = JSON.parse($(source).text());
     c3.generate({
       bindto: targetSelecter,
       data: {
@@ -9,6 +10,6 @@ $(function() {
       },
     });
   };
-  var data = JSON.parse($('#json').text());
-  createPieChart('#chart' , data);
+  createPieChart('#hash_rate' , '#hash_rate_json');
+  createPieChart('#rep_rate' , '#rep_rate_json');
 });

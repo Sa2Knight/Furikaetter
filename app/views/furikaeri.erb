@@ -1,2 +1,10 @@
-<div id="chart"></div>
-<div id="json" style="display: none"><%= @data %></div>
+<div id="userinfo">
+  <img src="<%= @usericon %>">
+  <p><a href="https://twitter.com/<%= @username %>/">@<%= @username %></a></p>
+</div>
+
+<div id="rep_rate"></div>
+<div id="hash_rate"></div>
+
+<div id="rep_rate_json" style="display: none"><%= @rep_rate %></div>
+<div id="hash_rate_json" style="display: none"><%= @hash_rate %></div>

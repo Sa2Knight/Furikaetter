@@ -34,9 +34,14 @@ class App < Sinatra::Base
 
   # ツイート集計ページ
   get '/furikaeri/:user' do
+    userinfo = Util.get_user_info(params[:user])
     tweet = Tweet.new(params[:user])
     tweet.tweets or redirect '/'
-    @data = Util.to_json(tweet.aggregate(:hash_tag , {:others => true}))
+    @username = userinfo[:username]
+    @usericon = userinfo[:icon]
+    @tweet_num = tweet.tweets.length
+    @rep_rate = Util.to_json(tweet.aggregate(:reply_to , {:others => true}))
+    @hash_rate = Util.to_json(tweet.aggregate(:hash_tag , {:others => true}))
     erb :furikaeri
   end
 
