@@ -37,6 +37,7 @@ class App < Sinatra::Base
     hash_num = tweet.count_of(:hash_tag)
     @username = userinfo[:username]
     @usericon = userinfo[:icon]
+    @created_at = userinfo[:created_at]
     @tweet_num = tweet.tweets.length
     @rep_rate = [['通常ツイート' , @tweet_num - reply_num] , ['リプライツイート' , reply_num]]
     @hash_rate = [['ハッシュタグなし' , @tweet_num - hash_num] , ['ハッシュタグあり' , hash_num]]

@@ -44,6 +44,7 @@ class Twitter
       :secret => @token.secret,
       :username => @twitter.info['screen_name'],
       :icon => @twitter.info['profile_image_url'],
+      :created_at => Time.now.strftime('%Y-%m-%d %H:%M:%S')
     })
     @authed = true
   end
