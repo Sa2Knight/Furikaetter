@@ -1,10 +1,27 @@
-<div id="userinfo">
-  <img src="<%= @usericon %>">
-  <p><a href="https://twitter.com/<%= @username %>/">@<%= @username %></a></p>
+<div id="content" style="text-align: center">
+
+  <h2><a href="https://twitter.com/<%= @username %>/">@<%= @username %></a></h2>
+  <hr>
+
+  <h3>リプライの割合</h3>
+  <div id="rep_rate"></div>
+  <hr>
+
+  <h3>よくリプライを送る相手</h3>
+  <div id="rep_target_rate"></div>
+  <hr>
+
+  <h3>ハッシュタグを使う割合</h3>
+  <div id="hash_rate"></div>
+  <hr>
+
+  <h3>よく使用するハッシュタグ</h3>
+  <div id="hash_used_rate"></div>
+  <hr>
+
+  <div id="rep_rate_json" style="display: none"><%= @rep_rate %></div>
+  <div id="hash_rate_json" style="display: none"><%= @hash_rate %></div>
+  <div id="rep_target_rate_json" style="display: none"><%= @rep_target_rate %></div>
+  <div id="hash_used_rate_json" style="display: none"><%= @hash_used_rate %></div>
+
 </div>
-
-<div id="rep_rate"></div>
-<div id="hash_rate"></div>
-
-<div id="rep_rate_json" style="display: none"><%= @rep_rate %></div>
-<div id="hash_rate_json" style="display: none"><%= @hash_rate %></div>

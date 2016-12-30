@@ -22,10 +22,6 @@ class App < Sinatra::Base
     end
   end
 
-  before do
-    #session[:user] = 'Sa2Knight' #debug
-  end
-
   # トップページ
   get '/' do
     @message = flash[:message]
@@ -37,11 +33,15 @@ class App < Sinatra::Base
     userinfo = Util.get_user_info(params[:user])
     tweet = Tweet.new(params[:user])
     tweet.tweets or redirect '/'
+    reply_num = tweet.count_of(:reply_to)
+    hash_num = tweet.count_of(:hash_tag)
     @username = userinfo[:username]
     @usericon = userinfo[:icon]
     @tweet_num = tweet.tweets.length
-    @rep_rate = Util.to_json(tweet.aggregate(:reply_to , {:others => true}))
-    @hash_rate = Util.to_json(tweet.aggregate(:hash_tag , {:others => true}))
+    @rep_rate = [['通常ツイート' , @tweet_num - reply_num] , ['リプライツイート' , reply_num]]
+    @hash_rate = [['ハッシュタグなし' , @tweet_num - hash_num] , ['ハッシュタグあり' , hash_num]]
+    @rep_target_rate = Util.to_json(tweet.aggregate(:reply_to , {:others => true}))
+    @hash_used_rate = Util.to_json(tweet.aggregate(:hash_tag , {:others => true}))
     erb :furikaeri
   end
 
