@@ -10,3 +10,7 @@
 * git push heroku master
 * heroku run bash
 * heroku logs --tail
+
+# スクリーンショット
+
+![SS](https://raw.githubusercontent.com/Sa2Knight/screenshot/master/furikaetter.png)
