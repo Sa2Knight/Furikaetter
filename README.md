@@ -1,7 +1,7 @@
-# Furikaetter -最近のツイートを集計するアレ-
+# Furikaetter -最近のツイートを集計するアレ
 
 * https://furikaetter.herokuapp.com/
-* 別途,api-keyを技術したsecret.ymlを配置する必要あり
+* 別途,api-keyを記述したsecret.ymlを配置する必要あり
 * Herokuにデプロイする際はsecret.ymlをgitでpushすること
 
 # メモ
